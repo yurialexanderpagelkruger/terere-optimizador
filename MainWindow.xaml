@@ -1,0 +1,375 @@
+﻿<Window x:Class="terere.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="tereré"
+        Height="620" Width="900"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResize"
+        MinWidth="700" MinHeight="500">
+
+    <Window.Resources>
+
+        <Style x:Key="BotonRosa" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="230"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borde"
+                                CornerRadius="26"
+                                Background="#CCDA1884"
+                                BorderBrush="#FFDA1884"
+                                BorderThickness="1.5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#DA1884" BlurRadius="22" ShadowDepth="0" Opacity="0.85"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="borde" Property="Background" Value="#FFDA1884"/>
+                                <Setter TargetName="borde" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="borde" Property="Background" Value="#99DA1884"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BotonVentana" TargetType="Button">
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Foreground" Value="#FFDA1884"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Transparent">
+                            <Border x:Name="halo"
+                                    Background="Transparent"
+                                    CornerRadius="16"
+                                    Opacity="0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#DA1884"
+                                                      BlurRadius="18"
+                                                      ShadowDepth="0"
+                                                      Opacity="1"/>
+                                </Border.Effect>
+                            </Border>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="sbHalo">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="halo"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.9"
+                                                             Duration="0:0:0.18"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="sbHalo"/>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="halo" Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BotonCerrar" TargetType="Button" BasedOn="{StaticResource BotonVentana}"/>
+
+    </Window.Resources>
+
+    <Grid>
+        <Border x:Name="MarcoPrincipal"
+                CornerRadius="24"
+                BorderBrush="#66DA1884"
+                BorderThickness="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="6">
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF0A0A0A" Offset="0"/>
+                    <GradientStop Color="#FF000000" Offset="1"/>
+                </RadialGradientBrush>
+            </Border.Background>
+            <Border.Effect>
+                <DropShadowEffect Color="#DA1884" BlurRadius="35" ShadowDepth="0" Opacity="0.5"/>
+            </Border.Effect>
+
+            <Grid>
+                <Canvas x:Name="LienzoCorazones" ClipToBounds="True"/>
+
+                <Grid x:Name="Panel1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="8,8,10,0"
+                                Background="Transparent">
+                        <Button x:Name="BtnMinimizar"
+                                Content="—"
+                                Style="{StaticResource BotonVentana}"
+                                Click="BtnMinimizar_Click"/>
+                        <Button x:Name="BtnMaximizar"
+                                Content="▢"
+                                Style="{StaticResource BotonVentana}"
+                                Click="BtnMaximizar_Click"/>
+                        <Button x:Name="BtnCerrar"
+                                Content="✕"
+                                Style="{StaticResource BotonCerrar}"
+                                Click="BtnCerrar_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="tereré"
+                                   FontFamily="Segoe UI"
+                                   FontSize="72"
+                                   FontWeight="Bold"
+                                   Foreground="#DA1884"
+                                   HorizontalAlignment="Center">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#DA1884" BlurRadius="30" ShadowDepth="0" Opacity="0.9"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <Button x:Name="BtnIniciar"
+                                Content="Iniciar"
+                                Style="{StaticResource BotonRosa}"
+                                Margin="0,45,0,0"
+                                HorizontalAlignment="Center"
+                                Click="BtnIniciar_Click"/>
+
+                        <Button x:Name="BtnSalir"
+                                Content="Salir"
+                                Style="{StaticResource BotonRosa}"
+                                Margin="0,22,0,0"
+                                HorizontalAlignment="Center"
+                                Click="BtnSalir_Click"/>
+
+                        <TextBlock Text="Desarrollado por Yuri Alexander Pagel Krüger"
+                                   FontFamily="Segoe UI"
+                                   FontSize="14"
+                                   Foreground="#88FFFFFF"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,50,0,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="Panel2" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="8,8,10,0"
+                                Background="Transparent">
+                        <Button x:Name="BtnMinimizar2"
+                                Content="—"
+                                Style="{StaticResource BotonVentana}"
+                                Click="BtnMinimizar_Click"/>
+                        <Button x:Name="BtnMaximizar2"
+                                Content="▢"
+                                Style="{StaticResource BotonVentana}"
+                                Click="BtnMaximizar_Click"/>
+                        <Button x:Name="BtnCerrar2"
+                                Content="✕"
+                                Style="{StaticResource BotonCerrar}"
+                                Click="BtnCerrar_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="tereré"
+                                   FontFamily="Segoe UI"
+                                   FontSize="38"
+                                   FontWeight="Bold"
+                                   Foreground="#DA1884"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,26">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#DA1884" BlurRadius="20" ShadowDepth="0" Opacity="0.9"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <Border Width="620"
+                                CornerRadius="20"
+                                Background="#44000000"
+                                BorderBrush="#66DA1884"
+                                BorderThickness="1"
+                                Padding="36,30,36,30">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#DA1884" BlurRadius="28" ShadowDepth="0" Opacity="0.55"/>
+                            </Border.Effect>
+
+                            <StackPanel>
+
+                                <TextBlock x:Name="TxtEstado"
+                                           Text="Preparando el proceso..."
+                                           FontFamily="Segoe UI"
+                                           FontSize="21"
+                                           FontWeight="SemiBold"
+                                           Foreground="#FFDA1884"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           Margin="0,0,0,26">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#DA1884" BlurRadius="14" ShadowDepth="0" Opacity="0.8"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+
+                                <Border Height="14"
+                                        CornerRadius="7"
+                                        Background="#33FFFFFF"
+                                        BorderBrush="#44DA1884"
+                                        BorderThickness="1">
+                                    <Grid>
+                                        <Border x:Name="BarraProgreso"
+                                                HorizontalAlignment="Left"
+                                                Width="0"
+                                                CornerRadius="7">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#FFDA1884" Offset="0"/>
+                                                    <GradientStop Color="#FFFF7AC0" Offset="0.5"/>
+                                                    <GradientStop Color="#FFDA1884" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#DA1884"
+                                                                  BlurRadius="16"
+                                                                  ShadowDepth="0"
+                                                                  Opacity="1"/>
+                                            </Border.Effect>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
+                                <TextBlock x:Name="TxtPorcentaje"
+                                           Text="0 %"
+                                           FontFamily="Segoe UI"
+                                           FontSize="15"
+                                           FontWeight="SemiBold"
+                                           Foreground="#88FFFFFF"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,10,0,24"/>
+
+                                <StackPanel x:Name="ListaPasos">
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,6,0,6">
+                                        <TextBlock x:Name="IconoPaso1"
+                                                   Text="○"
+                                                   FontSize="18"
+                                                   Foreground="#66FFFFFF"
+                                                   Width="30"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="Limpiar archivos temporales"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="16"
+                                                   Foreground="#88FFFFFF"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,6,0,6">
+                                        <TextBlock x:Name="IconoPaso2"
+                                                   Text="○"
+                                                   FontSize="18"
+                                                   Foreground="#66FFFFFF"
+                                                   Width="30"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="Reiniciar la conexión de red"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="16"
+                                                   Foreground="#88FFFFFF"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,6,0,6">
+                                        <TextBlock x:Name="IconoPaso3"
+                                                   Text="○"
+                                                   FontSize="18"
+                                                   Foreground="#66FFFFFF"
+                                                   Width="30"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="Limpiar el caché del navegador"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="16"
+                                                   Foreground="#88FFFFFF"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,6,0,6">
+                                        <TextBlock x:Name="IconoPaso4"
+                                                   Text="○"
+                                                   FontSize="18"
+                                                   Foreground="#66FFFFFF"
+                                                   Width="30"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="Comprobar que todo funcione bien"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="16"
+                                                   Foreground="#88FFFFFF"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="Desarrollado por Yuri Alexander Pagel Krüger"
+                                   FontFamily="Segoe UI"
+                                   FontSize="13"
+                                   Foreground="#88FFFFFF"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,30,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
