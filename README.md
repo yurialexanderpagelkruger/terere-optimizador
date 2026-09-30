@@ -4,9 +4,11 @@
 
 Con un flujo directo y guiado, la aplicación limpia archivos temporales, vacía la papelera de reciclaje, reinicia la pila de red, vacía el caché DNS y verifica la integridad del sistema—todo desde una única interfaz oscura con detalles rosas, sin abrir jamás una ventana de consola.
 
-## 📸 Screenshots
+## 📸 Capturas de pantalla
 
-![terere](screenshot.png)
+![tereré](screenshot.png)
+
+![tereré](screenshot2.png)
 
 ## ✨ Características principales
 
